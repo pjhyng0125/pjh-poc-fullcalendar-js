@@ -4,7 +4,7 @@
     <meta charset='utf-8'>
     <!-- 모바일 화면 해상도에 따른 글자 크기 대응 -->
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <title>fullcalendar version 6 poc</title>
+    <title>fullcalendar version 6 poc (copy)</title>
     <!-- fullcalendar 오픈 라이브러리 import -->
     <script src='fullcalendar-6.0.3/dist/index.global.js'></script>
     <link rel='stylesheet' type='text/css' media='screen' href='fullcalendar_v6.css'>
@@ -21,38 +21,22 @@
                 events: [
                     {
                         idx: 0, // extendedProps.idx 접근 가능
-                        title: '주간보고',
+                        title: '첫번째 일정',
                         start: '2023-01-25',
-                        classNames: [ 'pjh', 'test' ], // event 영역 class 추가
+                        classNames: [ 'classAddtest' ], // event 영역 class 추가
                         backgroundColor: 'red',
                         borderColor: 'red',
                         textColor: 'black',
                     },
                     {
-                        groupId: 123,
-                        title: '팀회의 1',
-                        start: '2023-01-27',
-                    },
-                    {
-                        title: '회식가즈아',
-                        start: '2023-01-12',
-                        display: 'background',
-                        // display: 'inverse-background',
-                    },
-                    {
-                        groupId: 123,
-                        title: '팀회의 2',
+                        title: '두번째 일정',
                         start: '2023-01-25',
+                        end: '2023-01-28',
                     },
                     {
                         title: '페이지 이동 이벤트 호출',
                         url: 'https://naver.com',
                         start: '2023-02-01',
-                    },
-                    {
-                        title: '팀보고 발표',
-                        start: '2023-01-25',
-                        end: '2023-01-28',
                     },
                 ],
                 dateClick: function(info) {
@@ -60,11 +44,6 @@
                 },
                 eventClick: function(info) {
                     alert('Event info : ' + JSON.stringify(info.event));
-                    // alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-                    // alert('View: ' + info.view.type);
-
-                    // change the border color just for fun
-                    // info.el.style.borderColor = 'red';
 
                     // url 커스텀 이동
                     info.jsEvent.preventDefault(); // 클릭이벤트 후처리 방지
