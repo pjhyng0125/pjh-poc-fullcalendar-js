@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <!-- 모바일 화면 해상도에 따른 글자 크기 대응 -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>fullcalendar version 5 poc</title>
+    <!-- fullcalendar 오픈 라이브러리 import -->
+    <script src='fullcalendar-5.11.3/lib/main.js'></script>
+    <link href='fullcalendar-5.11.3/lib/main.css' rel='stylesheet'>
+    <link rel='stylesheet' type='text/css' media='screen' href='fullcalendar_v5.css'>
+    <script>
+        let calendar;
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                businessHours: {
+                // define business hours
+                daysOfWeek: [1, 2, 3, 4, 5], // Monday - Friday
+                startTime: '09:00', // a start time (9am in this example)
+                endTime: '18:00', // an end time (6pm in this example)
+                },
+                weekends: false, // 토요일, 일요일 제외
+                // 이벤트 데이터
+                events: [
+                    // 일정 추가
+                    {
+                        title: '테스트1',
+                        start: '2023-03-17',
+                    },
+                    {
+                        title: '테스트2',
+                        start: '2023-03-17',
+                    },
+                    {
+                        title: '테스트3',
+                        start: '2023-03-17',
+                    },
+                    {
+                        title: '테스트4',
+                        start: '2023-03-17',
+                    },
+                    {
+                        title: '테스트a',
+                        start: '2023-03-16',
+                    },
+                ],
+                dayMaxEventRows: 3,
+                moreLinkContent:function(args){
+                    return '+' + args.num + ' 개';
+                },
+                dateClick: function(info) {
+                    console.log('Date : ', info.dateStr);
+                    // alert('Date : ' + info.dateStr);
+                    // alert('Date : ' + JSON.stringify(info.view));
+                },
+                // Customize the "more" link click event
+                eventDidMount: function(info) {
+                    console.log('[eventDidMount] 진입');
+                    // var moreLink = document.querySelector('.fc-daygrid-more-link');
+                    // var moreLink = info.el.querySelector('.fc-daygrid-more-link');
+                    // console.log('[eventDidMount] moreLink', moreLink);
+                    // if (moreLink) {
+                    //     hideMorePopover();
+                    //     // moreLink.addEventListener('click', function(event) {
+                    //     // });
+                    // }
+                    var eventEl = info.el.parentNode;
+                    
+                    // 이벤트 요소가 더 보기 팝업 안에 있는지 확인
+                    if (eventEl.closest('.fc-more-popover')) {
+                        // 더 보기 팝업 안에 있는 경우, 더 보기 팝업을 찾아 숨김
+                        var morePopoverEl = eventEl.closest('.fc-more-popover');
+                        if (morePopoverEl && morePopoverEl.style.display !== 'none') {
+                        morePopoverEl.style.display = 'none';
+                        // 팝업이 보이는 경우에만 호출
+                        if (info.view.popover && info.view.popover.el && info.view.popover.el.classList.contains('fc-more-popover')) {
+                            var popoverEl = info.view.popover.el;
+                            if (popoverEl) {
+                            var popoverRect = popoverEl.getBoundingClientRect(); // getBoundingClientRect() 함수 호출
+                            if (popoverRect) {
+                                info.view.popover.hide(); // 팝업 숨기기
+                            }
+                            }
+                        }
+                    }
+                }
+                },
+                moreLinkDidMount: function(info) {
+                    console.log('[moreLinkDidMount] 진입');
+                    // var moreLink = document.querySelector('.fc-daygrid-more-link');
+                    // // var moreLink = info.el.querySelector('.fc-daygrid-more-link');
+                    // console.log('[moreLinkDidMount] moreLink', moreLink);
+                    // if (moreLink) {
+                    //     moreLink.addEventListener('click', function(event) {
+                    //         event.preventDefault();
+                    //     });
+                    // }
+                },
+                moreLinkClick: function(info) {
+                    console.log('[moreLinkClick] 진입');
+                    // hideMorePopover();
+                },
+                // Fullcalendar 4.x 만 사용 가능
+                // eventPositioned: function(info) {
+                //     var event = info.event;
+                //     var eventElement = info.el;
+
+                //     var eventBottom = eventElement.getBoundingClientRect().bottom;
+                //     var contentBottom = this.el.getBoundingClientRect().bottom;
+
+                //     // 이벤트가 캘린더 밖에 위치한 경우
+                //     if (eventBottom > contentBottom) {
+                //         // 더보기 버튼 생성
+                //         var moreLink = document.createElement('a');
+                //         moreLink.innerText = '더보기';
+                //         moreLink.href = 'javascript:void(0)';
+
+                //         // 더보기 버튼 클릭 이벤트 핸들러
+                //         moreLink.addEventListener('click', function() {
+                //         alert('더 많은 이벤트가 있습니다!');
+                //         // 여기에 더보기 버튼을 클릭했을 때 해야할 작업 추가
+                //         });
+
+                //         // 이벤트 객체 전달
+                //         moreLink.event = event;
+
+                //         // 이벤트 요소에 더보기 버튼 추가
+                //         eventElement.querySelector('.fc-content').appendChild(moreLink);
+                //     }
+                // },
+                // 더보기 링크 클릭 이벤트 콜백 함수
+                // moreLinkClick: function(info) {
+                //     // prevent default behavior
+                //     if (info.jsEvent.preventDefault) {
+                //         info.jsEvent.preventDefault();
+                //     } else {
+                //         info.jsEvent.returnValue = false;
+                //     }
+                //     // handle more link click event here
+                //     console.log('more link clicked');
+                //     return false; // stop event propagation
+                // }
+                // // 이벤트 렌더링 후 콜백 함수
+                // eventDidMount: function(info) {
+                //     console.log('[eventDidMount] info.el : ', info.el);
+                //     var moreButton = info.el.querySelector('.fc-daygrid-more-link');
+                //     console.log('[eventDidMount] 진입 : ', moreButton);
+                //     if (moreButton) {
+                //         console.log('[eventDidMount] moreButton true');
+                //         moreButton.addEventListener('click', function(e) {
+                //             e.preventDefault(); // 이벤트 처리 방지
+                //         });
+                //     } else {
+                //         console.log('[eventDidMount] moreButton false');
+                //     }
+
+                //     // // 이벤트 렌더링 후 처리 로직
+                //     // var eventEl = info.el;
+                //     // var eventObj = info.event;
+                    
+                //     // // 더보기 링크 클릭 이벤트 제거
+                //     // var moreLinkEl = eventEl.querySelector('.fc-more');
+                //     // if (moreLinkEl) {
+                //     //     moreLinkEl.removeEventListener('click', calendar.publiclyTrigger.bind(calendar, 'moreLinkClick', {
+                //     //     context: eventObj,
+                //     //     args: [ eventObj, eventEl ]
+                //     //     }));
+                //     // }
+                // },
+            });
+            
+            calendar.render();
+            // setTimeout(function() {
+            //     hideMorePopover();
+            // }, 500);
+        });
+        
+        function hideMorePopover() {
+            const popoverEl = document.querySelector('.fc-more-popover');
+            console.log('[hideMorePopover] 진입', popoverEl);
+            if (popoverEl) {
+                popoverEl.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+<body style="padding:30px;">
+    <div id='calendar-container'>
+        <div id='calendar'></div>    
+    </div>
+</body>
+</html>
