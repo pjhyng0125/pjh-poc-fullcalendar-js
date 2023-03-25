@@ -96,7 +96,17 @@
                         start: '2023-01-25',
                         end: '2023-01-28',
                     },
+                    {
+                        title: '샘플',
+                        start: '2023-03-21',
+                    },
                 ],
+                eventClick: function() {
+                    alert('eventClick clicked!');
+                },
+                dateClick: function() {
+                    alert('dateClick clicked!');
+                },
             });
             calendar.render();
         });
