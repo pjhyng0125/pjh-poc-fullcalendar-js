@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <!-- 모바일 화면 해상도에 따른 글자 크기 대응 -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>fullcalendar version 5 poc</title>
+    <!-- fullcalendar 오픈 라이브러리 import -->
+    <script src='fullcalendar-5.11.3/lib/main.js'></script>
+    <link href='fullcalendar-5.11.3/lib/main.css' rel='stylesheet'>
+    <link rel='stylesheet' type='text/css' media='screen' href='fullcalendar_v5.css'>
+    <script>
+        let calendar;
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                // solution 1 => 콜백 이벤트가 n+1만큼 누적 호출됨...
+                // initialView: 'dayGridMonth',
+                // headerToolbar: {
+                // start: 'prev,next today',
+                // center: 'title',
+                // end: 'dayGridMonth,timeGridWeek,timeGridDay'
+                // },
+                // events: [
+                // {
+                //     title: 'Event 1',
+                //     start: '2023-03-01'
+                // },
+                // {
+                //     title: 'Event 2',
+                //     start: '2023-03-05'
+                // }
+                // ],
+                // datesSet: function(info) {
+                // // var currentMonth = moment(info.start).format('MMMM YYYY');
+
+                // // console.log('Current month: ' + currentMonth);
+
+                // console.log(info.start);
+
+                // const prevEl = document.querySelector(".fc-prev-button");
+                // prevEl.addEventListener('click', function() {
+                //     alert('Prev button clicked');
+                // });
+
+                // const nextEl = document.querySelector(".fc-next-button");
+                // nextEl.addEventListener('click', function() {
+                //     alert('Next button clicked');
+                // });
+                // }
+
+                // solution 2 => 그나마 적용해볼만 함. 달력 UI는 넘어가는데. 서버 통신 속도에 따른 렌더링이 얼마나 빨리 될지...
+                headerToolbar: {
+                left: 'prev',
+                center: 'title',
+                right: 'next'
+                },
+                initialView: 'dayGridMonth',
+                hiddenDays: [0, 6], // 요일 hidden 처리 (0:일, 6:토)
+                events: [
+                {
+                    title: 'Event 1',
+                    start: '2022-03-01'
+                },
+                {
+                    title: 'Event 2',
+                    start: '2022-03-05',
+                    end: '2022-03-07'
+                }
+                ],
+                // 달력 UI 변경 시마다 발생하는 이벤트
+                datesSet: function(info) {
+                    console.log('button clicked!');
+                    console.log('Current date range:', info.startStr, 'to', info.endStr);
+
+                    console.log('startStr : ', info.startStr.substring(0, 10).replace(/\-/g, ''));
+                    console.log('endStr : ', info.endStr.substring(0, 10).replace(/\-/g, ''));
+                },
+            });
+
+            calendar.render();
+        });
+    </script>
+</head>
+<body style="padding:30px;">
+    <div id='calendar-container'>
+        <div id='calendar'></div>    
+    </div>
+</body>
+</html>
