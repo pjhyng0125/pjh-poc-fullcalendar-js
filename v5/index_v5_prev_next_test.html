@@ -75,11 +75,49 @@
 
                     console.log('startStr : ', info.startStr.substring(0, 10).replace(/\-/g, ''));
                     console.log('endStr : ', info.endStr.substring(0, 10).replace(/\-/g, ''));
+
+                    // 캘린더 타이틀 기준 년월 정보 확인
+                    var title = calendar.view.title;
+                    console.log(`title : ${title}`);
+
+                    // 시작일자 기준으로 표시하는 경우, 시작일자를 포함하는 월의 달력 정보 반환
+                    // ex) 타이틀 : 2월 -> 시작일자 : 1월 30일 -> 달력 정보 1월
+                    // 결국 타이틀을 보는 것이 가장 정확함.
+
+                    // var stDate = info.start;
+                    // console.log(`stDate : ${stDate}`);
+                    
+                    // var y = stDate.getFullYear();
+                    // var m = stDate.getMonth() + 1;
+                    
+                    // console.log(`year : ${y}, month : ${m}`);
+
+                    // activeStart 는 현재 뷰에서 보여지는 첫 날짜 출력
+                    // var actvDateInfo = calendar.view.activeStart;
+                    // var year = actvDateInfo.getFullYear();
+                    // var month = actvDateInfo.getMonth() + 1;
+
+                    // console.log(`active year : ${year}`);
+                    // console.log(`active month : ${month}`);
+                    
                 },
             });
 
             calendar.render();
+
+            var calcnView = calendar.view;
+            // console.log(`calcnView : ${JSON.stringify(calcnView)}`);
         });
+
+        /**
+         * 캘린더버튼 display handler
+         */
+        function handleCalcnBtnDisplay(btnClassTxt, displayDsTxt) {
+            var nextBtn = document.querySelector(btnClassTxt);
+            if (nextBtn) {
+                nextBtn.style.display = displayDsTxt;
+            }
+        }
     </script>
 </head>
 <body style="padding:30px;">
